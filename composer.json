@@ -1,6 +1,8 @@
 {
     "name": "jlapp/smart-seeder",
-    "description": "",
+    "description": "Smart Seeder adds the same methology to seeding that is currently used with migrations in order to let you seed in batches, seed to production databases or other environments, and to rerun seeds without wiping out your data.",
+    "keywords": ["laravel", "seed", "database", "seeding", "table", "seeder", "smart"],
+    "version": "1.0.0",
     "authors": [
         {
             "name": "jlapp",
