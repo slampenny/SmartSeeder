@@ -7,6 +7,8 @@ Features
 
 - Allows you to seed databases in different environments with different values.
 - Allows you to "version" seeds, the same way that Laravel currently handles migrations. Running php artisan seed will only run seeds that haven't been run already.
+- Prompts you if your database is in production already.
+- Allows you to run multiple seeding of the same model/table
 - Overrides Laravel's seeding commands. SmartSeeder will fire when you run
     ```
     php artisan db:seed
@@ -16,17 +18,16 @@ Features
     php artisan migrate:refresh --seed
     ```
 
-- Prompts you if your database is in production already.
-- Allows you to run multiple seeding of the same model/table
-
+Use
+=====
 When you install SmartSeeder, various artisan commands are made available to you, which mostly mimic the migrations.
 
-- seed           Runs all the seeds in the smartSeeds directory that haven't been run yet.
-- seed:make      Makes a new seed class in the environment you specify.
-- seed:rollback  Rollback doesn't undo seeding (which would be impossible with an auto-incrementing primary key). It just allows you to rerun the last batch of seeds.
-- seed:reset     Resets all the seeds
-- seed:refresh   Resets and re-runs all seeds
-- seed:install    You don't have to use this... it will be run automatically when you call "seed"
+- seed|Runs all the seeds in the smartSeeds directory that haven't been run yet.
+- seed:make|Makes a new seed class in the environment you specify.
+- seed:rollback|Rollback doesn't undo seeding (which would be impossible with an auto-incrementing primary key). It just allows you to rerun the last batch of seeds.
+- seed:reset|Resets all the seeds
+- seed:refresh|Resets and re-runs all seeds
+- seed:install|You don't have to use this... it will be run automatically when you call "seed"
 
 Installation
 ============
