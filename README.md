@@ -22,13 +22,14 @@ Use
 =====
 When you install SmartSeeder, various artisan commands are made available to you, which mostly mimic the migrations.
 
-- seed|Runs all the seeds in the smartSeeds directory that haven't been run yet.
-- seed:make|Makes a new seed class in the environment you specify.
-- seed:rollback|Rollback doesn't undo seeding (which would be impossible with an auto-incrementing primary key). It just allows you to rerun the last batch of seeds.
-- seed:reset|Resets all the seeds
-- seed:refresh|Resets and re-runs all seeds
-- seed:install|You don't have to use this... it will be run automatically when you call "seed"
-
+<table>
+<tr><td>seed</td><td>Runs all the seeds in the smartSeeds directory that haven't been run yet.</td></tr>
+<tr><td>seed:make</td><td>Makes a new seed class in the environment you specify.</td></tr>
+<tr><td>seed:rollback</td><td>Rollback doesn't undo seeding (which would be impossible with an auto-incrementing primary key). It just allows you to rerun the last batch of seeds.</td></tr>
+<tr><td>seed:reset</td><td>Resets all the seeds</td></tr>
+<tr><td>seed:refresh</td><td>Resets and re-runs all seeds</td></tr>
+<tr><td>seed:install</td><td>You don't have to use this... it will be run automatically when you call "seed"</td></tr>
+</table>
 Installation
 ============
 
