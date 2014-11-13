@@ -8,9 +8,14 @@ Features
 - Allows you to seed databases in different environments with different values.
 - Allows you to "version" seeds, the same way that Laravel currently handles migrations. Running php artisan seed will only run seeds that haven't been run already.
 - Overrides Laravel's seeding commands. SmartSeeder will fire when you run
+    ```
     php artisan db:seed
+    ```
      or
+    ```
     php artisan migrate:refresh --seed
+    ```
+
 - Prompts you if your database is in production already.
 - Allows you to run multiple seeding of the same model/table
 
@@ -27,5 +32,8 @@ Installation
 ============
 
 - Add 'Jlapp\SmartSeeder\SmartSeederServiceProvider' to your providers array in app/config/app.php
-- Run the migration that adds the seeds table to the database by typing php artisan migrate --package="vendor/package" on the command line
+- Run the migration that adds the seeds table to the database by typing the following on the command line.
+    ```
+    php artisan migrate --package="vendor/package"
+    ```
 - Run php artisan config:publish jlapp/smart-seeder to push config files to your app folder if you want to override the name of the seeds folder or the name of the table where seeds are stored
