@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-use Jlapp\ProductionSeeder\ProductionMigration;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateSeedsTable extends ProductionMigration {
+class CreateSeedsTable extends Migration {
 
 	/**
 	 * Run the migrations.

@@ -40,7 +40,7 @@ class SeedMakeCommand extends Command {
         if (!File::exists($path)) {
             File::makeDirectory($path);
         }
-        $path .= "/{$model}Seeder.php";
+        $path .= "/".date('Y_m_d_His')."_{$model}Seeder.php";
 
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 

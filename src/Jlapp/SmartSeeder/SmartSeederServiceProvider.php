@@ -11,7 +11,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     public function boot() {
 
@@ -72,6 +72,12 @@ class SmartSeederServiceProvider extends ServiceProvider {
             return new SeedRefreshCommand();
         });
 
+        $this->app->bindShared('command.seed', function($app)
+        {
+            $migrator = $app['seed.migrator'];
+            return new SeedOverrideCommand($migrator);
+        });
+
         $this->commands(array('seed', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh'));
     }
 
@@ -82,7 +88,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array('seed', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh');
+        return array('seed', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh', 'command.seed');
     }
 
 }
