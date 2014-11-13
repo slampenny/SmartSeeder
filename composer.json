@@ -1,0 +1,23 @@
+{
+    "name": "jlapp/smart-seeder",
+    "description": "",
+    "authors": [
+        {
+            "name": "jlapp",
+            "email": "jordan@jordanlapp.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Jlapp\\SmartSeeder\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
