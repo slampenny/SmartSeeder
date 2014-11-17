@@ -11,10 +11,18 @@ class SmartSeederServiceProvider extends ServiceProvider {
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     public function boot() {
         $this->package('jlapp/smart-seeder');
+    }
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
 
         $this->app->bind('seed.repository', function($app)
         {
@@ -34,49 +42,42 @@ class SmartSeederServiceProvider extends ServiceProvider {
             $migrator = $app['seed.migrator'];
             return new SeedOverrideCommand($migrator);
         });
-    }
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->bind('command.seed.run', function($app)
+
+        $this->app->bind('seed.run', function($app)
         {
             $migrator = $app['seed.migrator'];
             return new SeedCommand($migrator);
         });
 
-        $this->app->bind('command.seed.install', function($app)
+        $this->app->bind('seed.install', function($app)
         {
             $repository = $app['seed.repository'];
             return new SeedInstallCommand($repository);
         });
 
-        $this->app->bind('command.seed.make', function($app)
+        $this->app->bind('seed.make', function($app)
         {
             return new SeedMakeCommand();
         });
 
-        $this->app->bind('command.seed.reset', function($app)
+        $this->app->bind('seed.reset', function($app)
         {
             $migrator = $app['seed.migrator'];
             return new SeedResetCommand($migrator);
         });
 
-        $this->app->bind('command.seed.rollback', function($app)
+        $this->app->bind('seed.rollback', function($app)
         {
             $migrator = $app['seed.migrator'];
             return new SeedResetCommand($migrator);
         });
 
-        $this->app->bind('command.seed.refresh', function()
+        $this->app->bind('seed.refresh', function()
         {
             return new SeedRefreshCommand();
         });
 
-        $this->commands(array('smart-seeder::command.seed.run', 'smart-seeder::command.seed.install', 'smart-seeder::command.seed.make', 'smart-seeder::command.seed.reset', 'smart-seeder::command.seed.rollback', 'smart-seeder::command.seed.refresh'));
+        $this->commands(array('seed.run', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh'));
     }
 
     /**
@@ -86,7 +87,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array('seed.repository', 'seed.migrator', 'command.seed.run', 'command.seed.install', 'command.seed.make', 'command.seed.reset', 'command.seed.rollback', 'command.seed.refresh', 'command.seed');
+        return array('seed.repository', 'seed.migrator', 'seed.run', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh', 'command.seed');
     }
 
 }
