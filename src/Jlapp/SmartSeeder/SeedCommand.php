@@ -14,7 +14,7 @@ class SeedCommand extends Command {
      *
      * @var string
      */
-    protected $name = 'seed';
+    protected $name = 'seed:run';
 
     private $migrator;
 
