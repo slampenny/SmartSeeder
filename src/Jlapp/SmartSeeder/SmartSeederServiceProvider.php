@@ -75,12 +75,12 @@ class SmartSeederServiceProvider extends ServiceProvider {
         });*/
 
         $this->commands(array(
-            'Jlapp\SmartSeeder\SeedCommand',
-            'Jlapp\SmartSeeder\SeedInstallCommand',
-            'Jlapp\SmartSeeder\SeedMakeCommand',
-            'Jlapp\SmartSeeder\SeedResetCommand',
-            'Jlapp\SmartSeeder\SeedRollbackCommand',
-            'Jlapp\SmartSeeder\SeedRefreshCommand',
+            'seed',
+            'seed.install',
+            'seed.make',
+            'seed.reset',
+            'seed.rollback',
+            'seed.refresh',
         ));
     }
 
