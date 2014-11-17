@@ -23,36 +23,33 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-
-        $this->app->bind('seed.repository', function($app)
-        {
-            $table = Config::get('smart-seeder::app.seedTable');
-
-            return new SmartSeederRepository($app['db'], $table);
+        App::bind('Jlapp\SmartSeeder\SmartSeederRepository', function($app) {
+            return new SmartSeederRepository($app['db'], Config::get('smart-seeder::app.seedTable'));
         });
 
-        $this->app->bind('seed.migrator', function($app)
+        App::bind('Jlapp\SmartSeeder\SeedMigrator', function($app)
         {
-            $repository = $app['seed.repository'];
-            return new SeedMigrator($repository, $app['db'], $app['files']);
+            //return $app->make('Jlapp\SmartSeeder\SeedMigrator', array());
+            return new SeedMigrator($app['Jlapp\SmartSeeder\SmartSeederRepository'], $app['db'], $app['files']);
         });
 
-        $this->app->bindShared('command.seed', function($app)
+        $this->app->bind('command.seed', 'Jlapp\SmartSeeder\SeedOverrideCommand');
+
+        /*$this->app->bind('seed.migrator', function($app)
         {
-            $migrator = $app['seed.migrator'];
-            return new SeedOverrideCommand($migrator);
-        });
+            return new SeedMigrator($app['seed.repository'], $app['db'], $app['files']);
+        });*/
+
+       /*
 
         $this->app->bind('seed.run', function($app)
         {
-            $migrator = $app['seed.migrator'];
-            return new SeedCommand($migrator);
+            return new SeedCommand($app['seed.migrator']);
         });
 
         $this->app->bind('seed.install', function($app)
         {
-            $repository = $app['seed.repository'];
-            return new SeedInstallCommand($repository);
+            return new SeedInstallCommand($app['seed.repository']);
         });
 
         $this->app->bind('seed.make', function($app)
@@ -69,15 +66,22 @@ class SmartSeederServiceProvider extends ServiceProvider {
         $this->app->bind('seed.rollback', function($app)
         {
             $migrator = $app['seed.migrator'];
-            return new SeedResetCommand($migrator);
+            return new SeedRollbackCommand($migrator);
         });
 
         $this->app->bind('seed.refresh', function()
         {
             return new SeedRefreshCommand();
-        });
+        });*/
 
-        $this->commands(array('seed.run', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh'));
+        $this->commands(array(
+            'Jlapp\SmartSeeder\SeedCommand',
+            'Jlapp\SmartSeeder\SeedInstallCommand',
+            'Jlapp\SmartSeeder\SeedMakeCommand',
+            'Jlapp\SmartSeeder\SeedResetCommand',
+            'Jlapp\SmartSeeder\SeedRollbackCommand',
+            'Jlapp\SmartSeeder\SeedRefreshCommand',
+        ));
     }
 
     /**
@@ -87,7 +91,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array('seed.repository', 'seed.migrator', 'seed.run', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh', 'command.seed');
+        return array('Jlapp\SmartSeeder\SmartSeederRepository', 'Jlapp\SmartSeeder\SeedMigrator', 'command.seed');
     }
 
 }

@@ -16,7 +16,7 @@ class SeedMigrator extends Migrator {
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
-    public function __construct(MigrationRepositoryInterface $repository,
+    public function __construct(SmartSeederRepository $repository,
                                 Resolver $resolver,
                                 Filesystem $files)
     {
