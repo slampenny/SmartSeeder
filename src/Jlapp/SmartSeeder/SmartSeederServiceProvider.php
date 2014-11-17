@@ -11,18 +11,11 @@ class SmartSeederServiceProvider extends ServiceProvider {
      *
      * @var bool
      */
-    protected $defer = true;
+    protected $defer = false;
 
     public function boot() {
         $this->package('jlapp/smart-seeder');
-    }
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
+
         $this->app->bind('seed.repository', function($app)
         {
             $table = Config::get('smart-seeder::app.seedTable');
@@ -36,6 +29,19 @@ class SmartSeederServiceProvider extends ServiceProvider {
             return new SeedMigrator($repository, $app['db'], $app['files']);
         });
 
+        $this->app->bindShared('command.seed', function($app)
+        {
+            $migrator = $app['seed.migrator'];
+            return new SeedOverrideCommand($migrator);
+        });
+    }
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->app->bind('seed', function($app)
         {
             $migrator = $app['seed.migrator'];
@@ -68,12 +74,6 @@ class SmartSeederServiceProvider extends ServiceProvider {
         $this->app->bind('seed.refresh', function()
         {
             return new SeedRefreshCommand();
-        });
-
-        $this->app->bindShared('command.seed', function($app)
-        {
-            $migrator = $app['seed.migrator'];
-            return new SeedOverrideCommand($migrator);
         });
 
         $this->commands(array('seed', 'seed.install', 'seed.make', 'seed.reset', 'seed.rollback', 'seed.refresh'));
