@@ -14,7 +14,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
     protected $defer = true;
 
     public function boot() {
-
+        $this->package('jlapp/smart-seeder');
     }
     /**
      * Register the service provider.
@@ -23,8 +23,6 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->package('jlapp/smart-seeder');
-
         $this->app->bind('seed.repository', function($app)
         {
             $table = Config::get('smart-seeder::app.seedTable');

@@ -30,9 +30,11 @@ When you install SmartSeeder, various artisan commands are made available to you
 <tr><td>seed:refresh</td><td>Resets and re-runs all seeds.</td></tr>
 <tr><td>seed:install</td><td>You don't have to use this... it will be run automatically when you call "seed"</td></tr>
 </table>
+
 Installation
 ============
 
+- Add require: "jlapp/smart-seeder": "dev-master" to your composer.json and run an update to bring it in.
 - Add 'Jlapp\SmartSeeder\SmartSeederServiceProvider' to your providers array in app/config/app.php
 - Run the migration that adds the seeds table to the database by typing the following on the command line:
     ```
