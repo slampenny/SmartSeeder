@@ -33,9 +33,11 @@ class SeedMakeCommand extends Command {
         $path = app_path(Config::get('smart-seeder::app.seedDir'));
 
         $env = $this->option('env');
-        if (!empty($env)) {
-            $path .= "/$env";
+        if (empty($env)) {
+            $env = App::environment();
         }
+
+        $path .= "/$env";
 
         if (!File::exists($path)) {
             File::makeDirectory($path);
@@ -47,7 +49,12 @@ class SeedMakeCommand extends Command {
         $stub = str_replace('{{model}}', $model, $fs);
         File::put($path, $stub);
 
-        $this->line("Seed created for $model in environment: $env");
+        $message = "Seed created for $model";
+        if (!empty($env)) {
+            $message .= "in environment: $env";
+        }
+
+        $this->line($message);
     }
 
     /**

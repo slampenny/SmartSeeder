@@ -40,6 +40,9 @@ class SeedRefreshCommand extends Command {
         if ( ! $this->confirmToProceed()) return;
 
         $env = $this->input->getOption('env');
+        if (empty($env)) {
+            $env = App::environment();
+        }
 
         $database = $this->input->getOption('database');
 
