@@ -23,18 +23,18 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        App::bind('seed.repository', function($app) {
+        App::bindShared('seed.repository', function($app) {
             return new SmartSeederRepository($app['db'], Config::get('smart-seeder::app.seedTable'));
         });
 
-        App::bind('seed.migrator', function($app)
+        App::bindShared('seed.migrator', function($app)
         {
             return new SeedMigrator($app['seed.repository'], $app['db'], $app['files']);
         });
 
         $this->app->bind('command.seed', function($app)
         {
-            return new SeedCommand($app['seed.migrator']);
+            return new SeedOverrideCommand($app['seed.migrator']);
         });
 
         $this->app->bind('seed.run', function($app)
