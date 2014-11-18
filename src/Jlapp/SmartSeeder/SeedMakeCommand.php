@@ -53,7 +53,7 @@ class SeedMakeCommand extends Command {
 
         $message = "Seed created for $model";
         if (!empty($env)) {
-            $message .= "in environment: $env";
+            $message .= " in environment: $env";
         }
 
         $this->line($message);
