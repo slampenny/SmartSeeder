@@ -48,7 +48,7 @@ class SeedMakeCommand extends Command {
 
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 
-        $stub = str_replace('{{model}}', $model.'_'.$created, $fs);
+        $stub = str_replace('{{model}}', $model.'Seeder_'.$created, $fs);
         File::put($path, $stub);
 
         $message = "Seed created for $model";
