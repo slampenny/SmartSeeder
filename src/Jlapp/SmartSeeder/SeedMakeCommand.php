@@ -43,11 +43,11 @@ class SeedMakeCommand extends Command {
             File::makeDirectory($path);
         }
         $created = date('Y_m_d_His');
-        $path .= "/".$created."_{$model}Seeder.php";
+        $path .= "/{$model}Seeder_$created.php";
 
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 
-        $stub = str_replace('{{model}}', $created."_".$model, $fs);
+        $stub = str_replace('{{model}}', $model.'_'.$created, $fs);
         File::put($path, $stub);
 
         $message = "Seed created for $model";
