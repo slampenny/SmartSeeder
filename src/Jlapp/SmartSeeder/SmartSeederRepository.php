@@ -2,6 +2,7 @@
 
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use Illuminate\Database\Schema\Blueprint;
 
 class SmartSeederRepository implements MigrationRepositoryInterface {
 
@@ -29,9 +30,8 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
     /**
      * Create a new database migration repository instance.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
-     * @param  string  $table
-     * @return void
+     * @param  \Illuminate\Database\ConnectionResolverInterface $resolver
+     * @param  string                                           $table
      */
     public function __construct(Resolver $resolver, $table)
     {
@@ -39,9 +39,15 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
         $this->resolver = $resolver;
     }
 
+    /**
+     * Set the environment to run the seeds against
+     *
+     * @param $env
+     */
     public function setEnv($env) {
         $this->env = $env;
     }
+
     /**
      * Get the ran migrations.
      *
@@ -81,8 +87,9 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
     /**
      * Remove a migration from the log.
      *
-     * @param  object  $migration
-     * @return void
+     * @param $seed
+     *
+     * @internal param object $migration
      */
     public function delete($seed)
     {
@@ -118,7 +125,7 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
     {
         $schema = $this->getConnection()->getSchemaBuilder();
 
-        $schema->create($this->table, function($table)
+        $schema->create($this->table, function(Blueprint $table)
         {
             // The migrations table is responsible for keeping track of which of the
             // migrations have actually run for the application. We'll create the
