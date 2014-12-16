@@ -3,6 +3,7 @@
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\Schema\Blueprint;
+use App;
 
 class SmartSeederRepository implements MigrationRepositoryInterface {
 
@@ -26,6 +27,13 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
      * @var string
      */
     protected $connection;
+
+    /**
+     * The name of the environment to run in
+     *
+     * @var string
+     */
+    public $env;
 
     /**
      * Create a new database migration repository instance.
@@ -55,7 +63,11 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
      */
     public function getRan()
     {
-        return $this->table()->where('env', '=', $this->env)->lists('seed');
+        $env = $this->env;
+        if (empty($env)) {
+            $env = App::environment();
+        }
+        return $this->table()->where('env', '=', $env)->lists('seed');
     }
 
     /**
@@ -65,7 +77,12 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
      */
     public function getLast()
     {
-        $query = $this->table()->where('env', '=', $this->env)->where('batch', $this->getLastBatchNumber());
+        $env = $this->env;
+        if (empty($env)) {
+            $env = App::environment();
+        }
+
+        $query = $this->table()->where('env', '=', $env)->where('batch', $this->getLastBatchNumber());
 
         return $query->orderBy('seed', 'desc')->get();
     }
@@ -79,7 +96,11 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
      */
     public function log($file, $batch)
     {
-        $record = array('seed' => $file, 'env' => $this->env, 'batch' => $batch);
+        $env = $this->env;
+        if (empty($env)) {
+            $env = App::environment();
+        }
+        $record = array('seed' => $file, 'env' => $env, 'batch' => $batch);
 
         $this->table()->insert($record);
     }
@@ -93,7 +114,11 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
      */
     public function delete($seed)
     {
-        $this->table()->where('env', '=', $this->env)->where('seed', $seed->seed)->delete();
+        $env = $this->env;
+        if (empty($env)) {
+            $env = App::environment();
+        }
+        $this->table()->where('env', '=', $env)->where('seed', $seed->seed)->delete();
     }
 
     /**
@@ -113,7 +138,11 @@ class SmartSeederRepository implements MigrationRepositoryInterface {
      */
     public function getLastBatchNumber()
     {
-        return $this->table()->where('env', '=', $this->env)->max('batch');
+        $env = $this->env;
+        if (empty($env)) {
+            $env = App::environment();
+        }
+        return $this->table()->where('env', '=', $env)->max('batch');
     }
 
     /**

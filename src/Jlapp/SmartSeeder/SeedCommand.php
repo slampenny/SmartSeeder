@@ -48,11 +48,6 @@ class SeedCommand extends Command {
 
         $path = app_path(Config::get('smart-seeder::app.seedDir'));
         $env = $this->option('env');
-        if (empty($env)) {
-            $env = App::environment();
-        }
-
-        $path .= "/$env";
 
         $this->migrator->setEnv($env);
         $this->migrator->run($path, $pretend);

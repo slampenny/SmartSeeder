@@ -41,9 +41,7 @@ class SeedResetCommand extends Command {
         if ( ! $this->confirmToProceed()) return;
 
         $env = $this->option('env');
-        if (empty($env)) {
-            $env = App::environment();
-        }
+
         $this->migrator->setEnv($env);
 
         $this->migrator->setConnection($this->input->getOption('database'));

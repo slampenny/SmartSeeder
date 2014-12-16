@@ -50,9 +50,6 @@ class SeedRollbackCommand extends Command {
         $this->migrator->setConnection($this->input->getOption('database'));
 
         $env = $this->option('env');
-        if (empty($env)) {
-            $env = App::environment();
-        }
 
         $this->migrator->setEnv($env);
 

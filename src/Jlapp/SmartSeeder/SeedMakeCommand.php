@@ -34,11 +34,9 @@ class SeedMakeCommand extends Command {
         $path = app_path(Config::get('smart-seeder::app.seedDir'));
 
         $env = $this->option('env');
-        if (empty($env)) {
-            $env = App::environment();
+        if (!empty($env)) {
+            $path .= "/$env";
         }
-
-        $path .= "/$env";
 
         if (!File::exists($path)) {
             File::makeDirectory($path);
