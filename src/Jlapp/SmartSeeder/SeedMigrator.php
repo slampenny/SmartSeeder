@@ -2,9 +2,11 @@
 namespace Jlapp\SmartSeeder;
 
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use Config;
+use File;
+use App;
 
 class SeedMigrator extends Migrator {
 
@@ -120,5 +122,25 @@ class SeedMigrator extends Migrator {
         $this->repository->delete($seed);
 
         $this->note("<info>Rolled back:</info> $file");
+    }
+
+    /**
+     * Resolve a migration instance from a file.
+     *
+     * @param  string  $file
+     * @return object
+     */
+    public function resolve($file)
+    {
+        $filePath = app_path()."/".Config::get('smart-seeder::app.seedDir')."/".$file.".php";
+        if (File::exists($filePath)) {
+            require_once $filePath;
+        } else if (!empty($this->repository->env)) {
+            require_once app_path()."/".Config::get('smart-seeder::app.seedDir')."/".$this->repository->env."/".$file.".php";
+        } else {
+            require_once app_path()."/".Config::get('smart-seeder::app.seedDir')."/".App::environment()."/".$file.".php";
+        }
+
+        return new $file;
     }
 } 
