@@ -34,7 +34,7 @@ When you install SmartSeeder, various artisan commands are made available to you
 Installation
 ============
 
-- Add require: "jlapp/smart-seeder": "dev-master" to your composer.json and run an update to bring it in.
+- Run `composer require jlapp/smart-seeder`
 - Add 'Jlapp\SmartSeeder\SmartSeederServiceProvider' to your providers array in app/config/app.php
 - Run the migration that adds the seeds table to the database by typing the following on the command line:
     ```
