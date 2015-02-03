@@ -36,8 +36,4 @@ Installation
 
 - Add require: "jlapp/smart-seeder": "dev-master" to your composer.json and run an update to bring it in.
 - Add 'Jlapp\SmartSeeder\SmartSeederServiceProvider' to your providers array in app/config/app.php
-- Run the migration that adds the seeds table to the database by typing the following on the command line:
-    ```
-    php artisan migrate --package="jlapp/smart-seeder"
-    ```
 - Run php artisan config:publish jlapp/smart-seeder to push config files to your app folder if you want to override the name of the seeds folder or the name of the table where seeds are stored
