@@ -2,7 +2,7 @@
     "name": "jlapp/smart-seeder",
     "description": "Smart Seeder adds the same methology to seeding that is currently used with migrations in order to let you seed in batches, seed to production databases or other environments, and to rerun seeds without wiping out your data.",
     "keywords": ["laravel", "seed", "database", "seeding", "table", "seeder", "smart"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,10 +13,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.2.*",
-        "illuminate/console": "4.2.*",
-        "illuminate/database": "4.2.*",
-        "illuminate/filesystem": "4.2.*"
+        "illuminate/support": "5.0.*",
+        "illuminate/console": "5.0.*",
+        "illuminate/database": "5.0.*",
+        "illuminate/filesystem": "5.0.*"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",
