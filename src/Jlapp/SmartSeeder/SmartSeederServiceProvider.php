@@ -14,7 +14,10 @@ class SmartSeederServiceProvider extends ServiceProvider {
     protected $defer = true;
 
     public function boot() {
-        $this->package('jlapp/smart-seeder');
+
+        $this->publishes([
+            __DIR__.'/../../config/smart-seeder.php' => config_path('smart-seeder.php'),
+        ]);
     }
 
     /**
@@ -24,6 +27,10 @@ class SmartSeederServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/smart-seeder.php', 'smart-seeder'
+        );
+
         App::bindShared('seed.repository', function($app) {
             return new SmartSeederRepository($app['db'], Config::get('smart-seeder::app.seedTable'));
         });
