@@ -31,7 +31,7 @@ class SeedMakeCommand extends Command {
     public function fire()
     {
         $model = ucfirst($this->argument('model'));
-        $path = app_path(Config::get('smart-seeder::app.seedDir'));
+        $path = base_path(config('smart-seeder.seedDir'));
 
         $env = $this->option('env');
         if (!empty($env)) {
