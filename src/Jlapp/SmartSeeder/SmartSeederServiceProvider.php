@@ -32,7 +32,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
         );
 
         App::bindShared('seed.repository', function($app) {
-            return new SmartSeederRepository($app['db'], Config::get('smart-seeder::app.seedTable'));
+            return new SmartSeederRepository($app['db'], config('smart-seeder.seedTable'));
         });
 
         App::bindShared('seed.migrator', function($app)
