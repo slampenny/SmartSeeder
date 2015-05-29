@@ -1,5 +1,6 @@
 <?php namespace Jlapp\SmartSeeder;
 
+use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
 
 class SeedMakeCommand extends Command {
+
+    use AppNamespaceDetectorTrait;
 
     /**
      * The console command name.
@@ -46,7 +49,7 @@ class SeedMakeCommand extends Command {
 
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 
-        $namespace = app()->getNamespace();
+        $namespace = $this->getAppNamespace();
         $stub = str_replace('{{model}}', "seed_{$created}_".$model.'Seeder', $fs);
         $stub = str_replace('{{namespace}}', " namespace $namespace", $fs);
         File::put($path, $stub);
