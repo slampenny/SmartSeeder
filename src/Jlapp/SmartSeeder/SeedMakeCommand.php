@@ -51,7 +51,7 @@ class SeedMakeCommand extends Command {
 
         $namespace = $this->getAppNamespace();
         $stub = str_replace('{{model}}', "seed_{$created}_".$model.'Seeder', $fs);
-        $stub = str_replace('{{namespace}}', " namespace $namespace", $fs);
+        $stub = str_replace('{{namespace}}', " namespace $namespace;", $stub);
         File::put($path, $stub);
 
         $message = "Seed created for $model";
