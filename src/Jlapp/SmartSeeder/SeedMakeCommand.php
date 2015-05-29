@@ -49,7 +49,7 @@ class SeedMakeCommand extends Command {
 
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 
-        $namespace = $this->getAppNamespace();
+        $namespace = rtrim($this->getAppNamespace(), "/");
         $stub = str_replace('{{model}}', "seed_{$created}_".$model.'Seeder', $fs);
         $stub = str_replace('{{namespace}}', " namespace $namespace;", $stub);
         File::put($path, $stub);
