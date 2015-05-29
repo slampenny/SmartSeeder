@@ -1,6 +1,7 @@
 <?php {{namespace}}
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class {{model}} extends Seeder {
 
@@ -11,7 +12,7 @@ class {{model}} extends Seeder {
      */
     public function run()
     {
-        Eloquent::unguard();
+        Model::unguard();
     }
 
 }
