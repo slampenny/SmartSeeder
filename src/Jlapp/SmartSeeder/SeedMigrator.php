@@ -3,12 +3,15 @@ namespace Jlapp\SmartSeeder;
 
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Config;
 use File;
 use App;
 
 class SeedMigrator extends Migrator {
+
+    use AppNamespaceDetectorTrait;
 
     /**
      * Create a new migrator instance.
@@ -75,7 +78,8 @@ class SeedMigrator extends Migrator {
         // First we will resolve a "real" instance of the migration class from this
         // migration file name. Once we have the instances we can run the actual
         // command such as "up" or "down", or we can just simulate the action.
-        $migration = new $file();
+        $fullPath = $this->getAppNamespace().$file;
+        $migration = new $fullPath();
 
         if ($pretend)
         {
