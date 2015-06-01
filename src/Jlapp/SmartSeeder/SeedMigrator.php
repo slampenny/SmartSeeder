@@ -77,8 +77,7 @@ class SeedMigrator extends Migrator {
         // First we will resolve a "real" instance of the migration class from this
         // migration file name. Once we have the instances we can run the actual
         // command such as "up" or "down", or we can just simulate the action.
-        $fullPath = $this->getAppNamespace().$file;
-        $migration = new $fullPath();
+        $migration = $this->resolve($file);
 
         if ($pretend)
         {
@@ -135,13 +134,13 @@ class SeedMigrator extends Migrator {
      */
     public function resolve($file)
     {
-        $filePath = app_path()."/".config('smart-seeder.seedDir')."/".$file.".php";
+        $filePath = base_path()."/".config('smart-seeder.seedDir')."/".$file.".php";
         if (File::exists($filePath)) {
             require_once $filePath;
         } else if (!empty($this->repository->env)) {
-            require_once app_path()."/".config('smart-seeder.seedDir')."/".$this->repository->env."/".$file.".php";
+            require_once base_path()."/".config('smart-seeder.seedDir')."/".$this->repository->env."/".$file.".php";
         } else {
-            require_once app_path()."/".config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php";
+            require_once base_path()."/".config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php";
         }
 
         return new $file;
