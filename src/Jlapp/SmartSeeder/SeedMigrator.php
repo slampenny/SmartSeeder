@@ -33,6 +33,10 @@ class SeedMigrator extends Migrator {
 
     /**
      * Get all of the migration files in a given path.
+     * If an environment was specified in the commmand, we also search the
+     * environment specific folder.
+     * Otherwise, we also look into the environment-specific folder based on
+     * the setting of the application.
      *
      * @param  string  $path
      * @return array
@@ -42,6 +46,10 @@ class SeedMigrator extends Migrator {
         $files = [];
         if (!empty($this->repository->env)) {
             $files = array_merge($files, $this->files->glob("$path/{$this->repository->env}/*.php"));
+        }
+        else {
+            $env = App::environment();
+            $files = array_merge($files, $this->files->glob("$path/{$env}/*.php"));
         }
         $files = array_merge($files, $this->files->glob($path.'/*.php'));
 
@@ -62,6 +70,38 @@ class SeedMigrator extends Migrator {
         sort($files);
 
         return $files;
+    }
+
+   /**
+     * Override the default functionality to add checking inside the folder
+     * name after the environment specified.
+     *
+     * @param  string  $path
+     * @param  array   $files
+     * @return void
+     */
+    public function requireFiles($path, array $files)
+    {
+        if (!empty($this->repository->env))
+        {
+            $env = $this->repository->env;
+        }
+        else
+        {
+            $env = App::environment();
+        }
+
+        foreach ($files as $file)
+        {
+            if (file_exists("{$path}/{$file}.php"))
+            {
+                $this->files->requireOnce("{$path}/{$file}.php");
+            }
+            if (file_exists("{$path}/{$env}/{$file}.php"))
+            {
+                $this->files->requireOnce("{$path}/{$env}/{$file}.php");
+            }
+        }
     }
 
     /**
