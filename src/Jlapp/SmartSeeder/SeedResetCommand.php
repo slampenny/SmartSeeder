@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Support\Facades\App;
 use Illuminate\Console\ConfirmableTrait;
+use League\Flysystem\File;
 
 class SeedResetCommand extends Command {
 
@@ -40,9 +41,14 @@ class SeedResetCommand extends Command {
     {
         if ( ! $this->confirmToProceed()) return;
 
+        $this->prepareDatabase();
+
         $env = $this->option('env');
 
-        $this->migrator->setEnv($env);
+        if (File::exists(app_path(config('smart-seeder.seedsDir')))) {
+            $this->migrator->setEnv($env);
+        }
+        //otherwise use the default environment
 
         $this->migrator->setConnection($this->input->getOption('database'));
 
@@ -64,6 +70,23 @@ class SeedResetCommand extends Command {
         }
 
         $this->line("Seeds reset for $env");
+    }
+
+    /**
+     * Prepare the migration database for running.
+     *
+     * @return void
+     */
+    protected function prepareDatabase()
+    {
+        $this->migrator->setConnection($this->input->getOption('database'));
+
+        if ( ! $this->migrator->repositoryExists())
+        {
+            $options = array('--database' => $this->input->getOption('database'));
+
+            $this->call('seed:install', $options);
+        }
     }
 
     /**

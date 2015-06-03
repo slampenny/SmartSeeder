@@ -51,7 +51,9 @@ class SeedRollbackCommand extends Command {
 
         $env = $this->option('env');
 
-        $this->migrator->setEnv($env);
+        if (File::exists(app_path(config('smart-seeder.seedsDir')))) {
+            $this->migrator->setEnv($env);
+        }
 
         $pretend = $this->input->getOption('pretend');
         $this->migrator->rollback($pretend);
