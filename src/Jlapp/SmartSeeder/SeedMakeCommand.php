@@ -1,5 +1,6 @@
 <?php namespace Jlapp\SmartSeeder;
 
+use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
 
 class SeedMakeCommand extends Command {
+
+    use AppNamespaceDetectorTrait;
 
     /**
      * The console command name.
@@ -31,7 +34,7 @@ class SeedMakeCommand extends Command {
     public function fire()
     {
         $model = ucfirst($this->argument('model'));
-        $path = app_path(Config::get('smart-seeder::app.seedDir'));
+        $path = base_path(config('smart-seeder.seedDir'));
 
         $env = $this->option('env');
         if (!empty($env)) {
@@ -47,6 +50,7 @@ class SeedMakeCommand extends Command {
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 
         $stub = str_replace('{{model}}', "seed_{$created}_".$model.'Seeder', $fs);
+        $stub = str_replace('{{namespace}}', " namespace $namespace;", $stub);
         File::put($path, $stub);
 
         $message = "Seed created for $model";

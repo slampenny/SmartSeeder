@@ -1,14 +1,16 @@
-<?php
-namespace Jlapp\SmartSeeder;
+<?php namespace Jlapp\SmartSeeder;
 
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Config;
 use File;
 use App;
 
 class SeedMigrator extends Migrator {
+
+    use AppNamespaceDetectorTrait;
 
     /**
      * Create a new migrator instance.
@@ -31,6 +33,10 @@ class SeedMigrator extends Migrator {
 
     /**
      * Get all of the migration files in a given path.
+     * If an environment was specified in the commmand, we also search the
+     * environment specific folder.
+     * Otherwise, we also look into the environment-specific folder based on
+     * the setting of the application.
      *
      * @param  string  $path
      * @return array
@@ -40,6 +46,10 @@ class SeedMigrator extends Migrator {
         $files = [];
         if (!empty($this->repository->env)) {
             $files = array_merge($files, $this->files->glob("$path/{$this->repository->env}/*.php"));
+        }
+        else {
+            $env = App::environment();
+            $files = array_merge($files, $this->files->glob("$path/{$env}/*.php"));
         }
         $files = array_merge($files, $this->files->glob($path.'/*.php'));
 
@@ -62,6 +72,38 @@ class SeedMigrator extends Migrator {
         return $files;
     }
 
+   /**
+     * Override the default functionality to add checking inside the folder
+     * name after the environment specified.
+     *
+     * @param  string  $path
+     * @param  array   $files
+     * @return void
+     */
+    public function requireFiles($path, array $files)
+    {
+        if (!empty($this->repository->env))
+        {
+            $env = $this->repository->env;
+        }
+        else
+        {
+            $env = App::environment();
+        }
+
+        foreach ($files as $file)
+        {
+            if (file_exists("{$path}/{$file}.php"))
+            {
+                $this->files->requireOnce("{$path}/{$file}.php");
+            }
+            if (file_exists("{$path}/{$env}/{$file}.php"))
+            {
+                $this->files->requireOnce("{$path}/{$env}/{$file}.php");
+            }
+        }
+    }
+
     /**
      * Run "up" a migration instance.
      *
@@ -75,7 +117,7 @@ class SeedMigrator extends Migrator {
         // First we will resolve a "real" instance of the migration class from this
         // migration file name. Once we have the instances we can run the actual
         // command such as "up" or "down", or we can just simulate the action.
-        $migration = new $file();
+        $migration = $this->resolve($file);
 
         if ($pretend)
         {
@@ -132,13 +174,13 @@ class SeedMigrator extends Migrator {
      */
     public function resolve($file)
     {
-        $filePath = app_path()."/".Config::get('smart-seeder::app.seedDir')."/".$file.".php";
+        $filePath = base_path()."/".config('smart-seeder.seedDir')."/".$file.".php";
         if (File::exists($filePath)) {
             require_once $filePath;
         } else if (!empty($this->repository->env)) {
-            require_once app_path()."/".Config::get('smart-seeder::app.seedDir')."/".$this->repository->env."/".$file.".php";
+            require_once base_path()."/".config('smart-seeder.seedDir')."/".$this->repository->env."/".$file.".php";
         } else {
-            require_once app_path()."/".Config::get('smart-seeder::app.seedDir')."/".App::environment()."/".$file.".php";
+            require_once base_path()."/".config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php";
         }
 
         return new $file;
