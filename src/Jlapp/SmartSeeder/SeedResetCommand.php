@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Support\Facades\App;
 use Illuminate\Console\ConfirmableTrait;
-use League\Flysystem\File;
+use File;
 
 class SeedResetCommand extends Command {
 
