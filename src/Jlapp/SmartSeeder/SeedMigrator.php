@@ -99,7 +99,7 @@ class SeedMigrator extends Migrator {
     /**
      * Run "down" a migration instance.
      *
-     * @param  object  $migration
+     * @param  object  $seed
      * @param  bool    $pretend
      * @return void
      */
@@ -136,15 +136,16 @@ class SeedMigrator extends Migrator {
      */
     public function resolve($file)
     {
-        $filePath = app_path()."/".config('smart-seeder.seedDir')."/".$file.".php";
+        $filePath = database_path(config('smart-seeder.seedDir')."/".$file.".php");
         if (File::exists($filePath)) {
             require_once $filePath;
         } else if (!empty($this->repository->env)) {
-            require_once app_path()."/".config('smart-seeder.seedDir')."/".$this->repository->env."/".$file.".php";
+            require_once database_path(config('smart-seeder.seedDir')."/".$this->repository->env."/".$file.".php");
         } else {
-            require_once app_path()."/".config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php";
+            require_once database_path(config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php");
         }
 
-        return new $file;
+        $fullPath = $this->getAppNamespace().$file;
+        return new $fullPath;
     }
 } 

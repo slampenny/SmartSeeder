@@ -10,7 +10,6 @@ namespace Jlapp\SmartSeeder;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Support\Facades\App;
 use Illuminate\Console\ConfirmableTrait;
 
 class SeedRefreshCommand extends Command {

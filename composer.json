@@ -23,9 +23,6 @@
     "henrikbjorn/phpspec-code-coverage": "~0.2"
   },
   "autoload": {
-    "classmap": [
-      "src/migrations"
-    ],
     "psr-0": {
       "Jlapp\\SmartSeeder\\": "src/",
       "": "src"

@@ -11,7 +11,8 @@ namespace Jlapp\SmartSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Support\Facades\App;
+
+use File;
 
 class SeedRollbackCommand extends Command {
 
@@ -51,7 +52,7 @@ class SeedRollbackCommand extends Command {
 
         $env = $this->option('env');
 
-        if (File::exists(app_path(config('smart-seeder.seedsDir')))) {
+        if (File::exists(database_path(config('smart-seeder.seedsDir')))) {
             $this->migrator->setEnv($env);
         }
 

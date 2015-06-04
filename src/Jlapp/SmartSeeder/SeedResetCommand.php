@@ -4,9 +4,10 @@ namespace Jlapp\SmartSeeder;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Support\Facades\App;
 use Illuminate\Console\ConfirmableTrait;
-use League\Flysystem\File;
+
+use App;
+use File;
 
 class SeedResetCommand extends Command {
 
@@ -45,7 +46,7 @@ class SeedResetCommand extends Command {
 
         $env = $this->option('env');
 
-        if (File::exists(app_path(config('smart-seeder.seedsDir')))) {
+        if (File::exists(database_path(config('smart-seeder.seedsDir')))) {
             $this->migrator->setEnv($env);
         }
         //otherwise use the default environment

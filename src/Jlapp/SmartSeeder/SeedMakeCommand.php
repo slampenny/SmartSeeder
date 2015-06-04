@@ -4,9 +4,10 @@ use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\App;
+
+use File;
+use App;
+use Config;
 
 class SeedMakeCommand extends Command {
 
@@ -36,7 +37,7 @@ class SeedMakeCommand extends Command {
         $model = ucfirst($this->argument('model'));
         $path = $this->option('path');
         if (empty($path)) {
-            $path = base_path(config('smart-seeder.seedDir'));
+            $path = database_path(config('smart-seeder.seedDir'));
         }
         else {
             $path = base_path($path);
@@ -56,7 +57,7 @@ class SeedMakeCommand extends Command {
 
         $fs = File::get(__DIR__."/stubs/DatabaseSeeder.stub");
 
-        $namespace = rtrim($this->getAppNamespace(), "/");
+        $namespace = rtrim($this->getAppNamespace(), "\\");
         $stub = str_replace('{{model}}', "seed_{$created}_".$model.'Seeder', $fs);
         $stub = str_replace('{{namespace}}', " namespace $namespace;", $stub);
         File::put($path, $stub);
