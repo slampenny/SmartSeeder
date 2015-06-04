@@ -145,7 +145,7 @@ class SeedMigrator extends Migrator {
             require_once database_path(config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php");
         }
 
-        $fullPath = $this->getAppNamespace()."\\".$file;
+        $fullPath = $this->getAppNamespace().$file;
         return new $fullPath;
     }
 } 
