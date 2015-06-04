@@ -136,7 +136,7 @@ class SeedMigrator extends Migrator {
      */
     public function resolve($file)
     {
-        $filePath = database_path()."/".config('smart-seeder.seedDir')."/".$file.".php";
+        $filePath = database_path(config('smart-seeder.seedDir')."/".$file.".php");
         if (File::exists($filePath)) {
             require_once $filePath;
         } else if (!empty($this->repository->env)) {
@@ -145,6 +145,7 @@ class SeedMigrator extends Migrator {
             require_once database_path(config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php");
         }
 
-        return new $file;
+        $fullPath = $this->getAppNamespace()."\\".$file;
+        return new $fullPath;
     }
 } 
