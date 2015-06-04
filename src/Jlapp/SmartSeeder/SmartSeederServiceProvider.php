@@ -1,8 +1,7 @@
 <?php namespace Jlapp\SmartSeeder;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
+use App;
 
 class SmartSeederServiceProvider extends ServiceProvider {
 
