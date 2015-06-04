@@ -46,7 +46,7 @@ class SeedCommand extends Command {
         // a database for real, which is helpful for double checking migrations.
         $pretend = $this->input->getOption('pretend');
 
-        $path = base_path(config('smart-seeder.seedDir'));
+        $path = database_path(config('smart-seeder.seedDir'));
         $env = $this->option('env');
 
         $this->migrator->setEnv($env);

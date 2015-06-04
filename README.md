@@ -1,6 +1,9 @@
 # SmartSeeder for Laravel
 
-Seeding as it is currently done in Laravel is intended only for dev builds, but what if you want to seed a production database with different data from what you use in development? What if you want to seed a table you've added to a database that is currently in production with new data?
+### For Laravel 5, please use the [5.0 branch](https://github.com/slampenny/SmartSeeder/tree/5.0)!
+### For Laravel 4, please use the [4.2 branch](https://github.com/slampenny/SmartSeeder/tree/4.2)!
+
+Seeding as it is currently done in Laravel is intended only for dev builds, but what if you're iteratively creating your database and want to constantly flush it and repopulate it during development? What if you want to seed a production database with different data from what you use in development? What if you want to seed a table you've added to a database that is currently in production with new data?
 
 Features
 ========
@@ -34,6 +37,6 @@ When you install SmartSeeder, various artisan commands are made available to you
 Installation
 ============
 
-- Add require: "jlapp/smart-seeder": "dev-master" to your composer.json and run an update to bring it in.
+- Add require: "jlapp/smart-seeder": "dev-master" to your composer.json and run an update to bring it in (or run composer require jlapp/smartseeder).
 - Add 'Jlapp\SmartSeeder\SmartSeederServiceProvider' to your providers array in app/config/app.php
-- Run php artisan config:publish jlapp/smart-seeder to push config files to your app folder if you want to override the name of the seeds folder or the name of the table where seeds are stored
+- Run php artisan vendor:publish to push config files to your config folder if you want to override the name of the seeds folder or the name of the table where seeds are stored

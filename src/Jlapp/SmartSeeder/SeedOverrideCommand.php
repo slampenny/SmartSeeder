@@ -1,10 +1,6 @@
 <?php namespace Jlapp\SmartSeeder;
 
-use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Support\Facades\App;
-use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Support\Facades\Config;
 
 class SeedOverrideCommand extends SeedCommand {
 
