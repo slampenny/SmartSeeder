@@ -148,7 +148,7 @@ class SeedMigrator extends Migrator {
             return $this->pretendToRun($instance, 'down');
         }
 
-        if (property_exists($instance, 'down')) {
+        if (method_exists($instance, 'down')) {
             $instance->down();
         }
 
