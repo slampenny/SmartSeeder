@@ -35,7 +35,13 @@ class SeedMakeCommand extends Command {
     public function fire()
     {
         $model = ucfirst($this->argument('model'));
-        $path = database_path(config('smart-seeder.seedDir'));
+        $path = $this->option('path');
+        if (empty($path)) {
+            $path = database_path(config('smart-seeder.seedDir'));
+        }
+        else {
+            $path = base_path($path);
+        }
 
         $env = $this->option('env');
         if (!empty($env)) {
@@ -43,7 +49,8 @@ class SeedMakeCommand extends Command {
         }
 
         if (!File::exists($path)) {
-            File::makeDirectory($path);
+            // mode 0755 is based on the default mode Laravel use.
+            File::makeDirectory($path, 755, true);
         }
         $created = date('Y_m_d_His');
         $path .= "/seed_{$created}_{$model}Seeder.php";
@@ -85,6 +92,7 @@ class SeedMakeCommand extends Command {
     {
         return array(
             array('env', null, InputOption::VALUE_OPTIONAL, 'The environment to seed to.', null),
+            array('path', null, InputOption::VALUE_OPTIONAL, 'The relative path to the base path to generate the seed to.', null),
         );
     }
 }
