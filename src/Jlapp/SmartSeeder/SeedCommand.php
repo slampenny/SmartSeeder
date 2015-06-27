@@ -50,7 +50,13 @@ class SeedCommand extends Command {
         $env = $this->option('env');
 
         $this->migrator->setEnv($env);
-        $this->migrator->run($path, $pretend);
+
+        $single = $this->option('file');
+        if ($single) {
+            $this->migrator->runSingleFile("$path/$single", $pretend);
+        } else {
+            $this->migrator->run($path, $pretend);
+        }
 
         // Once the migrator has run we will grab the note output and send it out to
         // the console screen, since the migrator itself functions without having
@@ -89,6 +95,7 @@ class SeedCommand extends Command {
         return array(
             array('env', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', null),
             array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
+            array('file', null, InputOption::VALUE_OPTIONAL, 'Allows individual seed files to be run.', null),
 
             array('force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production.'),
             array('pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'),

@@ -23,7 +23,7 @@ class {{model}} extends Seeder {
     public function down()
     {
         Model::unguard();
-        {{class}}->truncate();
+        {{class}}::truncate();
     }
 
 }

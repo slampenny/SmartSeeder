@@ -66,6 +66,37 @@ class SeedMigrator extends Migrator {
     }
 
     /**
+     * Run the outstanding migrations at a given path.
+     *
+     * @param  string  $path
+     * @param  bool    $pretend
+     * @return void
+     */
+    public function runSingleFile($file, $pretend = false)
+    {
+        $this->notes = array();
+
+        $filename_ext = pathinfo($file, PATHINFO_EXTENSION);
+
+        if (!$filename_ext) {
+            $file .= ".php";
+        }
+
+        $files = [$file];
+
+        // Once we grab all of the migration files for the path, we will compare them
+        // against the migrations that have already been run for this package then
+        // run each of the outstanding migrations against a database connection.
+        $ran = $this->repository->getRan();
+
+        $migrations = array_diff($files, $ran);
+
+        $this->files->requireOnce($file);
+
+        $this->runMigrationList($migrations, $pretend);
+    }
+
+    /**
      * Run "up" a migration instance.
      *
      * @param  string  $file
