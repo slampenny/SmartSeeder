@@ -72,15 +72,11 @@ class SeedMigrator extends Migrator {
      * @param  bool    $pretend
      * @return void
      */
-    public function runSingleFile($file, $pretend = false)
+    public function runSingleFile($path, $pretend = false)
     {
         $this->notes = array();
 
-        $filename_ext = pathinfo($file, PATHINFO_EXTENSION);
-
-        if (!$filename_ext) {
-            $file .= ".php";
-        }
+        $file = str_replace('.php', '', basename($path));
 
         $files = [$file];
 
@@ -91,7 +87,12 @@ class SeedMigrator extends Migrator {
 
         $migrations = array_diff($files, $ran);
 
-        $this->files->requireOnce($file);
+        $filename_ext = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (!$filename_ext) {
+            $path .= ".php";
+        }
+        $this->files->requireOnce($path);
 
         $this->runMigrationList($migrations, $pretend);
     }
