@@ -15,7 +15,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
     public function boot() {
 
         $this->publishes([
-            __DIR__.'/../../config/dynamodb.php' => config_path('dynamodb.php'),
+            __DIR__.'/../../config/smart-seeder.php' => config_path('smart-seeder.php'),
         ]);
     }
 
@@ -27,7 +27,7 @@ class SmartSeederServiceProvider extends ServiceProvider {
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/dynamodb.php', 'smart-seeder'
+            __DIR__.'/../../config/smart-seeder.php', 'smart-seeder'
         );
 
         App::bindShared('seed.repository', function($app) {
