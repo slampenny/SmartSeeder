@@ -117,8 +117,9 @@ class SeedMigrator extends Migrator {
             return $this->pretendToRun($instance, 'down');
         }
 
-        //no way to reliably reverse a migration. For instance, with an auto-incrementing primary key, you'd have to keep track of that key to perform a delete...unless you matched all the fields in the row. But in that case you still might delete two rows instead of one.
-       // $instance->down();
+        if (property_exists($instance, 'down')) {
+            $instance->down();
+        }
 
         // Once we have successfully run the migration "down" we will remove it from
         // the migration repository so it will be considered to have not been run

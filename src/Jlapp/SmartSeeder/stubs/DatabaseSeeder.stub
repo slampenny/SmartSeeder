@@ -15,4 +15,15 @@ class {{model}} extends Seeder {
         Model::unguard();
     }
 
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Model::unguard();
+        {{class}}->truncate();
+    }
+
 }
