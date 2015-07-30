@@ -105,6 +105,38 @@ class SeedMigrator extends Migrator {
     }
 
     /**
+     * Run the outstanding migrations at a given path.
+     *
+     * @param  string  $path
+     * @param  bool    $pretend
+     * @return void
+     */
+    public function runSingleFile($path, $pretend = false)
+    {
+        $this->notes = array();
+
+        $file = str_replace('.php', '', basename($path));
+
+        $files = [$file];
+
+        // Once we grab all of the migration files for the path, we will compare them
+        // against the migrations that have already been run for this package then
+        // run each of the outstanding migrations against a database connection.
+        $ran = $this->repository->getRan();
+
+        $migrations = array_diff($files, $ran);
+
+        $filename_ext = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (!$filename_ext) {
+            $path .= ".php";
+        }
+        $this->files->requireOnce($path);
+
+        $this->runMigrationList($migrations, $pretend);
+    }
+
+    /**
      * Run "up" a migration instance.
      *
      * @param  string  $file
@@ -155,8 +187,9 @@ class SeedMigrator extends Migrator {
             return $this->pretendToRun($instance, 'down');
         }
 
-        //no way to reliably reverse a migration. For instance, with an auto-incrementing primary key, you'd have to keep track of that key to perform a delete...unless you matched all the fields in the row. But in that case you still might delete two rows instead of one.
-       // $instance->down();
+        if (method_exists($instance, 'down')) {
+            $instance->down();
+        }
 
         // Once we have successfully run the migration "down" we will remove it from
         // the migration repository so it will be considered to have not been run

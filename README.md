@@ -20,6 +20,8 @@ Features
     ```
     php artisan migrate:refresh --seed
     ```
+- You can run a single seed file with the --file option.
+    php artisan seed:run --file=seed_2015_05_27_030017_UserSeeder
 
 Use
 =====
