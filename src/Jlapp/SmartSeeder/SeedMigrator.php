@@ -1,5 +1,4 @@
-<?php
-namespace Jlapp\SmartSeeder;
+<?php namespace Jlapp\SmartSeeder;
 
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
@@ -34,6 +33,10 @@ class SeedMigrator extends Migrator {
 
     /**
      * Get all of the migration files in a given path.
+     * If an environment was specified in the commmand, we also search the
+     * environment specific folder.
+     * Otherwise, we also look into the environment-specific folder based on
+     * the setting of the application.
      *
      * @param  string  $path
      * @return array
@@ -43,6 +46,10 @@ class SeedMigrator extends Migrator {
         $files = [];
         if (!empty($this->repository->env)) {
             $files = array_merge($files, $this->files->glob("$path/{$this->repository->env}/*.php"));
+        }
+        else {
+            $env = App::environment();
+            $files = array_merge($files, $this->files->glob("$path/{$env}/*.php"));
         }
         $files = array_merge($files, $this->files->glob($path.'/*.php'));
 
@@ -63,6 +70,38 @@ class SeedMigrator extends Migrator {
         sort($files);
 
         return $files;
+    }
+
+   /**
+     * Override the default functionality to add checking inside the folder
+     * name after the environment specified.
+     *
+     * @param  string  $path
+     * @param  array   $files
+     * @return void
+     */
+    public function requireFiles($path, array $files)
+    {
+        if (!empty($this->repository->env))
+        {
+            $env = $this->repository->env;
+        }
+        else
+        {
+            $env = App::environment();
+        }
+
+        foreach ($files as $file)
+        {
+            if (file_exists("{$path}/{$file}.php"))
+            {
+                $this->files->requireOnce("{$path}/{$file}.php");
+            }
+            if (file_exists("{$path}/{$env}/{$file}.php"))
+            {
+                $this->files->requireOnce("{$path}/{$env}/{$file}.php");
+            }
+        }
     }
 
     /**
@@ -110,8 +149,7 @@ class SeedMigrator extends Migrator {
         // First we will resolve a "real" instance of the migration class from this
         // migration file name. Once we have the instances we can run the actual
         // command such as "up" or "down", or we can just simulate the action.
-        $fullPath = $this->getAppNamespace().$file;
-        $migration = new $fullPath();
+        $migration = $this->resolve($file);
 
         if ($pretend)
         {
