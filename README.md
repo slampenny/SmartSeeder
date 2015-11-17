@@ -1,5 +1,6 @@
 # SmartSeeder for Laravel
 
+### For Laravel 5, please use the [5.1 branch](https://github.com/slampenny/SmartSeeder/tree/5.1)!
 ### For Laravel 5, please use the [5.0 branch](https://github.com/slampenny/SmartSeeder/tree/5.0)!
 ### For Laravel 4, please use the [4.2 branch](https://github.com/slampenny/SmartSeeder/tree/4.2)!
 
@@ -21,7 +22,7 @@ Features
     php artisan migrate:refresh --seed
     ```
 - You can run a single seed file with the --file option.
-    php artisan seed:run --file=seed_2015_05_27_030017_UserSeeder
+    `php artisan seed:run --file=seed_2015_05_27_030017_UserSeeder`
 
 Use
 =====
@@ -39,6 +40,6 @@ When you install SmartSeeder, various artisan commands are made available to you
 Installation
 ============
 
-- Add require: "jlapp/smart-seeder": "dev-master" to your composer.json and run an update to bring it in (or run composer require jlapp/smartseeder).
-- Add 'Jlapp\SmartSeeder\SmartSeederServiceProvider' to your providers array in app/config/app.php
-- Run php artisan vendor:publish to push config files to your config folder if you want to override the name of the seeds folder or the name of the table where seeds are stored
+- Add require: `"jlapp/smart-seeder": "dev-master"` to your composer.json and run an update to bring it in (or run composer require jlapp/smartseeder).
+- Add `Jlapp\SmartSeeder\SmartSeederServiceProvider::class` to your providers array in `app/config/app.php`
+- Run `php artisan vendor:publish` to push config files to your config folder if you want to override the name of the seeds folder or the name of the table where seeds are stored
