@@ -43,7 +43,7 @@ class SeedMakeCommand extends Command {
             $path = base_path($path);
         }
 
-        $env = $this->option('env');
+        $env = $this->option('namespace');
         if (!empty($env)) {
             $path .= "/$env";
         }
@@ -91,7 +91,7 @@ class SeedMakeCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment to seed to.', null),
+            array('namespace', null, InputOption::VALUE_OPTIONAL, 'The environment to seed to.', null),
             array('path', null, InputOption::VALUE_OPTIONAL, 'The relative path to the base path to generate the seed to.', null),
         );
     }
