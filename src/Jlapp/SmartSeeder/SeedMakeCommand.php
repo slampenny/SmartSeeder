@@ -43,14 +43,14 @@ class SeedMakeCommand extends Command {
             $path = base_path($path);
         }
 
-        $env = $this->option('env');
+        $env = $this->option('namespace');
         if (!empty($env)) {
             $path .= "/$env";
         }
 
         if (!File::exists($path)) {
             // mode 0755 is based on the default mode Laravel use.
-            File::makeDirectory($path, 755, true);
+            File::makeDirectory($path, 775, true);
         }
         $created = date('Y_m_d_His');
         $path .= "/seed_{$created}_{$model}Seeder.php";
@@ -59,7 +59,7 @@ class SeedMakeCommand extends Command {
 
         $namespace = rtrim($this->getAppNamespace(), "\\");
         $stub = str_replace('{{model}}', "seed_{$created}_".$model.'Seeder', $fs);
-        $stub = str_replace('{{namespace}}', " namespace $namespace;", $stub);
+        $stub = str_replace('{{namespace}}', "namespace $namespace;", $stub);
         $stub = str_replace('{{class}}', $model, $stub);
         File::put($path, $stub);
 
@@ -91,7 +91,7 @@ class SeedMakeCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment to seed to.', null),
+            array('namespace', null, InputOption::VALUE_OPTIONAL, 'The environment to seed to.', null),
             array('path', null, InputOption::VALUE_OPTIONAL, 'The relative path to the base path to generate the seed to.', null),
         );
     }

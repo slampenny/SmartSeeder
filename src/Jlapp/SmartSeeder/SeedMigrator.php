@@ -51,10 +51,10 @@ class SeedMigrator extends Migrator {
         // finding the migrations that haven't been run against the databases.
         if ($files === false) return array();
 
-        $files = array_map(function($file)
+        $files = array_map(function($file) use ($path)
         {
-            return str_replace('.php', '', basename($file));
-
+            $file = str_replace($path, '', $file);
+            return trim(str_replace('.php', '', $file), '/');
         }, $files);
 
         // Once we have all of the formatted file names we will sort them and since
@@ -110,7 +110,7 @@ class SeedMigrator extends Migrator {
         // First we will resolve a "real" instance of the migration class from this
         // migration file name. Once we have the instances we can run the actual
         // command such as "up" or "down", or we can just simulate the action.
-        $fullPath = $this->getAppNamespace().$file;
+        $fullPath = $this->getAppNamespace().basename($file);
         $migration = new $fullPath();
 
         if ($pretend)
@@ -178,7 +178,7 @@ class SeedMigrator extends Migrator {
             require_once database_path(config('smart-seeder.seedDir')."/".App::environment()."/".$file.".php");
         }
 
-        $fullPath = $this->getAppNamespace().$file;
+        $fullPath = $this->getAppNamespace().basename($file);
         return new $fullPath;
     }
 } 

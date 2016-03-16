@@ -44,7 +44,7 @@ class SeedResetCommand extends Command {
 
         $this->prepareDatabase();
 
-        $env = $this->option('env');
+        $env = $this->option('namespace');
 
         if (File::exists(database_path(config('smart-seeder.seedsDir')))) {
             $this->migrator->setEnv($env);
@@ -111,7 +111,7 @@ class SeedResetCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', null),
+            array('namespace', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', null),
 
             array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
 
