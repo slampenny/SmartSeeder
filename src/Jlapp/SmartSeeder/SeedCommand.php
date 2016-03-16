@@ -47,7 +47,7 @@ class SeedCommand extends Command {
         $pretend = $this->input->getOption('pretend');
 
         $path = database_path(config('smart-seeder.seedDir'));
-        $env = $this->option('env');
+        $env = $this->option('namespace');
 
         $this->migrator->setEnv($env);
 
@@ -93,7 +93,7 @@ class SeedCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', env('SEEDER_ENV')),
+            array('namespace', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', env('SEEDER_ENV')),
             array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
             array('file', null, InputOption::VALUE_OPTIONAL, 'Allows individual seed files to be run.', null),
 
