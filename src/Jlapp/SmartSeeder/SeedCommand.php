@@ -93,7 +93,7 @@ class SeedCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', null),
+            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment in which to run the seeds.', env('APP_ENV')),
             array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
             array('file', null, InputOption::VALUE_OPTIONAL, 'Allows individual seed files to be run.', null),
 
