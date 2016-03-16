@@ -38,7 +38,7 @@ class SeedRefreshCommand extends Command {
     {
         if ( ! $this->confirmToProceed()) return;
 
-        $env = $this->input->getOption('env');
+        $env = $this->input->getOption('namespace');
 
         $database = $this->input->getOption('database');
 
@@ -64,7 +64,7 @@ class SeedRefreshCommand extends Command {
     protected function getOptions()
     {
         return array(
-            array('env', null, InputOption::VALUE_OPTIONAL, 'The environment to use.'),
+            array('namespace', null, InputOption::VALUE_OPTIONAL, 'The environment to use.'),
 
             array('database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'),
 
