@@ -50,7 +50,7 @@ class SeedMakeCommand extends Command {
 
         if (!File::exists($path)) {
             // mode 0755 is based on the default mode Laravel use.
-            File::makeDirectory($path, 755, true);
+            File::makeDirectory($path, 775, true);
         }
         $created = date('Y_m_d_His');
         $path .= "/seed_{$created}_{$model}Seeder.php";
